@@ -1,9 +1,16 @@
 #include<iostream>
 using namespace std;
+using std::cin;
+using std::cout;
+using std::endl;
+
 #define tab "\t"
+#define delimeter "\n------------------------------------\n"
 
 void FillRand(int arr[], const int n);
-void Print(int* rr, const int n);
+void FillRand(int** arr, const int rows, const int cols);
+void Print(int* arr, const int n);
+void Print(int** arr, const int rows, const int cols);
 
 int* push_back(int* arr, int& n, int value);
 int* push_front(int* arr, int& n, int value);
@@ -11,13 +18,19 @@ int* insert(int* arr, int& n, int value, int index);
 int* pop_back(int* arr, int& n);
 int* pop_front(int* arr, int& n);
 
+int** push_row_back(int** arr, int& rows, const int cols);
+
+//#define DYNAMIC_MEMORY_1
+#define DYNAMIC_MEMORY_2
+
 void main()
 {
 	setlocale(LC_ALL, "");
+#ifdef DYNAMIC_MEMORY_1
 	int n;
 	cout << "¬ведите количество элементов: "; cin >> n;
 	int* arr = new int[n];
-	
+
 	FillRand(arr, n);
 	Print(arr, n);
 
@@ -43,7 +56,35 @@ void main()
 	Print(arr, n);
 
 	delete[] arr;
-	//Memory leak
+	//Memory leak  
+#endif // DYNAMIC_MEMORY_1
+
+	int rows; //количество строк
+	int cols; //количество столбцов (количество элементов строки)
+	cout << "¬ведите количество строк: "; cin >> rows;
+	cout << "¬ведите количество элементов строки: "; cin >> cols;
+
+	int** arr = new int* [rows];   //сщздаем массив указателей
+	for (int i = 0; i < rows; i++)
+	{
+		//создаем строки двумерного массива:
+		arr[i] = new int[cols];
+	}
+
+	FillRand(arr, rows, cols);
+	Print(arr, rows, cols);
+	cout << delimeter << endl;
+	arr = push_row_back(arr, rows, cols);
+	Print(arr, rows, cols);
+
+	//удал€ем строки двумерного массива
+	for (int i = 0; i < rows; i++)
+	{
+		delete[] arr[i];
+	}
+	//2) удал€ем массив указателей:
+	delete[] arr;
+
 }
 
 void FillRand(int arr[], const int n)
@@ -135,4 +176,49 @@ int* pop_front(int* arr, int& n)
 	for (int i = 0; i < n; i++)buffer[i] = arr[i + 1];
 	delete[] arr;
 	return buffer;
+}
+
+
+void FillRand(int** arr, const int rows, const int cols)
+{
+	for (int i = 0; i < rows; i++)   
+	{
+		for (int j = 0; j < cols; j++)
+		{
+			arr[i][j] = rand() % 100;
+		}
+	}
+}
+
+void Print(int** arr, const int rows, const int cols)
+{
+	for (int i = 0; i < rows; i++)
+	{
+		for (int j = 0; j < cols; j++)
+		{
+			cout << arr[i][j] << tab;
+		}
+		cout << endl;
+	}
+}
+
+int** push_row_back(int** arr, int& rows, const int cols)
+{
+	//1) сщздаем буферный массив указателей
+	int** buffer = new int* [rows + 1];
+	// 2) копируем адреса строк в новый масссив указателей
+	for (int i = 0; i < rows; i++)
+	{
+		buffer[i] = arr[i];
+	}
+	//3) удал€ем исходный массив указателей
+	delete[] arr;
+	//4) подмен€ем адрес указател€ 'arr' адресом нового массива
+	arr = buffer;
+	// 5) сщздаем новую сроку
+	arr[rows] = new int[cols] {};
+	//6) после добавлени€ строки, количество строк увеличиваетс€ на одну
+	rows++;
+	//7) строка добавлена, возвращаем новым массив
+	return arr;
 }
