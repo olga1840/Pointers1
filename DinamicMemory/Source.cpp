@@ -7,7 +7,7 @@ using std::endl;
 #define tab "\t"
 #define delimeter "\n------------------------------------\n"
 
-void FillRand(int arr[], const int n);
+void FillRand(int arr[], const int n, int minRand=0, int maxRand=100);
 void FillRand(int** arr, const int rows, const int cols);
 void Print(int* arr, const int n);
 void Print(int** arr, const int rows, const int cols);
@@ -19,9 +19,19 @@ int* pop_back(int* arr, int& n);
 int* pop_front(int* arr, int& n);
 
 int** push_row_back(int** arr, int& rows, const int cols);
+int** push_row_front(int** arr, int& rows, const int cols);
+int** insert(int** arr, int& rows, const int cols, const int index);
+
+int** pop_row_back(int** arr, int& rows, const int cols);
+
+void push_col_back(int** arr, const int rows, int& cols);
+
 
 //#define DYNAMIC_MEMORY_1
 #define DYNAMIC_MEMORY_2
+
+int** allocate(const int rows, const int cols);
+void clear(int** arr, const int rows);
 
 void main()
 {
@@ -64,19 +74,51 @@ void main()
 	cout << "¬ведите количество строк: "; cin >> rows;
 	cout << "¬ведите количество элементов строки: "; cin >> cols;
 
+	int** arr = allocate(rows, cols);
+	
+	FillRand(arr, rows, cols);
+	Print(arr, rows, cols);
+
+	cout << delimeter << endl;
+	arr = push_row_back(arr, rows, cols);
+	FillRand(arr[rows - 1], cols, 900, 1000);
+	Print(arr, rows, cols);
+
+	cout << delimeter << endl;
+	arr = push_row_front(arr, rows, cols);
+	FillRand(arr[0], cols, 100, 200);
+	Print(arr, rows, cols);
+
+	int index;
+	cout << "¬ведите индекс добавл€емой строки: "; cin >> index;
+	arr = insert(arr, rows, cols, index);
+	FillRand(arr[index], cols, 400, 500);
+	Print(arr, rows, cols);
+	cout << delimeter << endl;
+
+	arr = pop_row_back(arr, rows, cols);
+	Print(arr, rows, cols);
+	cout << delimeter << endl;
+
+	push_col_back(arr, rows, cols);
+	Print(arr, rows, cols);
+
+	clear(arr, rows);
+}
+
+int** allocate(const int rows, const int cols)
+{
 	int** arr = new int* [rows];   //сщздаем массив указателей
 	for (int i = 0; i < rows; i++)
 	{
 		//создаем строки двумерного массива:
 		arr[i] = new int[cols];
 	}
+	return arr;
+}
 
-	FillRand(arr, rows, cols);
-	Print(arr, rows, cols);
-	cout << delimeter << endl;
-	arr = push_row_back(arr, rows, cols);
-	Print(arr, rows, cols);
-
+void clear(int** arr, const int rows)
+{
 	//удал€ем строки двумерного массива
 	for (int i = 0; i < rows; i++)
 	{
@@ -84,16 +126,15 @@ void main()
 	}
 	//2) удал€ем массив указателей:
 	delete[] arr;
-
 }
 
-void FillRand(int arr[], const int n)
+void FillRand(int arr[], const int n, int minRand, int maxRand)
 {
 	cout << typeid(arr).name() << endl;
 	for (int i = 0; i < n; i++)
 	{
 		//через арифметику указателей и оператор разыменовани€
-		*(arr + i) = rand() % 100;
+		*(arr + i) = rand() % (maxRand - minRand) + minRand;
 	}
 }
 
@@ -221,4 +262,50 @@ int** push_row_back(int** arr, int& rows, const int cols)
 	rows++;
 	//7) строка добавлена, возвращаем новым массив
 	return arr;
+}
+
+int** push_row_front(int** arr, int& rows, const int cols)
+{
+	int** buffer = new int* [rows + 1];
+	for (int i = 0; i < rows; i++)buffer[i+1] = arr[i];
+	delete[] arr;
+	arr = buffer;
+	arr[0] = new int[cols] {};
+	rows++;
+	return arr;
+}
+
+int** insert(int** arr, int& rows, const int cols, const int index)
+{
+	int** buffer = new int* [rows + 1];
+	for (int i = 0; i < index; i++)buffer[i] = arr[i];
+	for (int i = index; i < rows; i++)buffer[i + 1] = arr[i];
+	delete[] arr;
+	arr = buffer;
+	arr[index] = new int[cols] {};
+	rows++;
+	return arr;
+}
+
+int** pop_row_back(int** arr, int& rows, const int cols)
+{
+	//1) удал€ем последнюю строку из пам€ти
+	delete[] arr[rows - 1];
+	//2) переопредел€ем массив указателей
+	int** buffer = new int* [--rows];
+	for (int i = 0; i < rows; i++)buffer[i] = arr[i];
+	delete[] arr;
+	return buffer;
+}
+
+void push_col_back(int** arr, const int rows, int& cols)
+{
+	for (int i = 0; i < rows; i++)
+	{
+		int* buffer = new int[cols + 1] {};
+		for (int j = 0; j < cols; j++)buffer[j] = arr[i][j];
+		delete[] arr[i];
+		arr[i] = buffer;
+	}
+	cols++;
 }
