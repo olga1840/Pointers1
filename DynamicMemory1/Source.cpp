@@ -1,4 +1,4 @@
-#include<iostream>
+ï»¿#include<iostream>
 using namespace std;
 
 #define tab "\t"
@@ -18,16 +18,16 @@ void main()
 	setlocale(LC_ALL, "");
 
 	int n;
-	cout << "Ââåäèòå êîëè÷åñòâî ýëåìåíòîâ: "; cin >> n;
+	cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ ÐºÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¾Ð²: "; cin >> n;
 	int* arr = new int[n];
 
 	FillRand(arr, n);
 	Print(arr, n);
 
 	int value;
-	cout << "Ââåäèòå äîáàâëÿåìîå çíà÷åíèå: "; cin >> value;
+	cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð´Ð¾Ð±Ð°Ð²Ð»ÑÐµÐ¼Ð¾Ðµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ: "; cin >> value;
 	int index;
-	cout << "Ââåäèòå èíäåêñ äîáàâëÿåìîãî çíà÷åíèÿ: "; cin >> index;
+	cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð¸Ð½Ð´ÐµÐºÑ Ð´Ð¾Ð±Ð°Ð²Ð»ÑÐµÐ¼Ð¾Ð³Ð¾ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ñ: "; cin >> index;
 	arr = insert(arr, n, value, index);
 	Print(arr, n);
 
@@ -40,7 +40,7 @@ void main()
 	Print(arr, n);
 
 	cout << delimeter << endl;
-	cout << "Ââåäèòå èíäåêñ èñêëþ÷àåìîãî çíà÷åíèÿ: "; cin >> index;
+	cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð¸Ð½Ð´ÐµÐºÑ Ð¸ÑÐºÐ»ÑŽÑ‡Ð°ÐµÐ¼Ð¾Ð³Ð¾ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ñ: "; cin >> index;
 	arr = erase(arr, n, index);
 	Print(arr, n);
 
@@ -52,7 +52,7 @@ void FillRand(int arr[], const int n, int minRand, int maxRand)
 	cout << typeid(arr).name() << endl;
 	for (int i = 0; i < n; i++)
 	{
-		//÷åðåç àðèôìåòèêó óêàçàòåëåé è îïåðàòîð ðàçûìåíîâàíèÿ
+		//Ñ‡ÐµÑ€ÐµÐ· Ð°Ñ€Ð¸Ñ„Ð¼ÐµÑ‚Ð¸ÐºÑƒ ÑƒÐºÐ°Ð·Ð°Ñ‚ÐµÐ»ÐµÐ¹ Ð¸ Ð¾Ð¿ÐµÑ€Ð°Ñ‚Ð¾Ñ€ Ñ€Ð°Ð·Ñ‹Ð¼ÐµÐ½Ð¾Ð²Ð°Ð½Ð¸Ñ
 		*(arr + i) = rand() % (maxRand - minRand) + minRand;
 	}
 }
@@ -62,8 +62,8 @@ void Print(int arr[], const int n)
 	cout << typeid(arr).name() << endl;
 	for (int i = 0; i < n; i++)
 	{
-		//÷åðåç îïåðàòîð èíäåêñèðîâàíèÿ
-		//[] - îïåðàòîð èíäåêñèðîâàíèÿ (subscript operator)
+		//Ñ‡ÐµÑ€ÐµÐ· Ð¾Ð¿ÐµÑ€Ð°Ñ‚Ð¾Ñ€ Ð¸Ð½Ð´ÐµÐºÑÐ¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ
+		//[] - Ð¾Ð¿ÐµÑ€Ð°Ñ‚Ð¾Ñ€ Ð¸Ð½Ð´ÐµÐºÑÐ¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ (subscript operator)
 		cout << arr[i] << tab;
 	}
 	cout << endl;
