@@ -1,4 +1,4 @@
-#include<iostream>
+п»ї#include<iostream>
 using namespace std;
 
 #define tab "\t"
@@ -22,8 +22,8 @@ void main()
 	setlocale(LC_ALL, "");
 	int rows; 
 	int cols; 
-	cout << "Введите количество строк: "; cin >> rows;
-	cout << "Введите количество элементов строки: "; cin >> cols;
+	cout << "Р’РІРµРґРёС‚Рµ РєРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚СЂРѕРє: "; cin >> rows;
+	cout << "Р’РІРµРґРёС‚Рµ РєРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ СЃС‚СЂРѕРєРё: "; cin >> cols;
 	
 	int** arr = allocate(rows, cols);
 
@@ -35,7 +35,7 @@ void main()
 	Print(arr, rows, cols);
 
 	int index;
-	cout << "Введите индекс добавляемой строки: "; cin >> index;
+	cout << "Р’РІРµРґРёС‚Рµ РёРЅРґРµРєСЃ РґРѕР±Р°РІР»СЏРµРјРѕР№ СЃС‚СЂРѕРєРё: "; cin >> index;
 	arr = insert_row(arr, rows, cols, index);
 	Print(arr, rows, cols);
 	cout << delimeter << endl;
@@ -48,7 +48,7 @@ void main()
 	Print(arr, rows, cols);
 	cout << delimeter << endl;
 
-	cout << "Введите индекс удаляемой строки: "; cin >> index;
+	cout << "Р’РІРµРґРёС‚Рµ РёРЅРґРµРєСЃ СѓРґР°Р»СЏРµРјРѕР№ СЃС‚СЂРѕРєРё: "; cin >> index;
 	arr = erase_row(arr, rows, cols, index);
 	Print(arr, rows, cols);
 
@@ -57,10 +57,10 @@ void main()
 
 int** allocate(const int rows, const int cols)
 {
-	int** arr = new int * [rows];   //сщздаем массив указателей
+	int** arr = new int * [rows];   //СЃС‰Р·РґР°РµРј РјР°СЃСЃРёРІ СѓРєР°Р·Р°С‚РµР»РµР№
 	for (int i = 0; i < rows; i++)
 	{
-		//создаем строки двумерного массива:
+		//СЃРѕР·РґР°РµРј СЃС‚СЂРѕРєРё РґРІСѓРјРµСЂРЅРѕРіРѕ РјР°СЃСЃРёРІР°:
 		arr[i] = new int[cols];
 	}
 	return arr;
@@ -68,12 +68,12 @@ int** allocate(const int rows, const int cols)
 
 void clear(int** arr, const int rows)
 {
-	//удаляем строки двумерного массива
+	//СѓРґР°Р»СЏРµРј СЃС‚СЂРѕРєРё РґРІСѓРјРµСЂРЅРѕРіРѕ РјР°СЃСЃРёРІР°
 	for (int i = 0; i < rows; i++)
 	{
 		delete[] arr[i];
 	}
-	//2) удаляем массив указателей:
+	//2) СѓРґР°Р»СЏРµРј РјР°СЃСЃРёРІ СѓРєР°Р·Р°С‚РµР»РµР№:
 	delete[] arr;
 }
 
@@ -126,9 +126,9 @@ int** insert_row(int** arr, int& rows, const int cols, const int index)
 
 int** pop_row_back(int** arr, int& rows, const int cols)
 {
-	//1) удаляем последнюю строку из памяти
+	//1) СѓРґР°Р»СЏРµРј РїРѕСЃР»РµРґРЅСЋСЋ СЃС‚СЂРѕРєСѓ РёР· РїР°РјСЏС‚Рё
 	delete[] arr[rows - 1];
-	//2) переопределяем массив указателей
+	//2) РїРµСЂРµРѕРїСЂРµРґРµР»СЏРµРј РјР°СЃСЃРёРІ СѓРєР°Р·Р°С‚РµР»РµР№
 	int** buffer = new int * [--rows];
 	for (int i = 0; i < rows; i++)buffer[i] = arr[i];
 	delete[] arr;
