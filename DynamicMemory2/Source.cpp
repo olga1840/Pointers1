@@ -13,6 +13,10 @@ int** pop_row_back(int** arr, int& rows, const int cols);
 int** pop_row_front(int** arr, int& rows, const int cols);
 int** erase_row(int** arr, int& rows, const int cols, int index);
 
+int** allocate(const int rows, const int cols);
+void clear(int** arr, const int rows);
+
+
 void main()
 {
 	setlocale(LC_ALL, "");
@@ -21,7 +25,7 @@ void main()
 	cout << "¬ведите количество строк: "; cin >> rows;
 	cout << "¬ведите количество элементов строки: "; cin >> cols;
 	
-	int** arr = new int* [rows,cols];
+	int** arr = allocate(rows, cols);
 
 	FillRand(arr, rows, cols);
 	Print(arr, rows, cols);
@@ -48,9 +52,30 @@ void main()
 	arr = erase_row(arr, rows, cols, index);
 	Print(arr, rows, cols);
 
-	delete[] arr;
+	clear(arr, rows);;
 }
 
+int** allocate(const int rows, const int cols)
+{
+	int** arr = new int * [rows];   //сщздаем массив указателей
+	for (int i = 0; i < rows; i++)
+	{
+		//создаем строки двумерного массива:
+		arr[i] = new int[cols];
+	}
+	return arr;
+}
+
+void clear(int** arr, const int rows)
+{
+	//удал€ем строки двумерного массива
+	for (int i = 0; i < rows; i++)
+	{
+		delete[] arr[i];
+	}
+	//2) удал€ем массив указателей:
+	delete[] arr;
+}
 
 
 void FillRand(int** arr, const int rows, const int cols)
